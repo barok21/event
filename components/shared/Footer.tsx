@@ -15,6 +15,7 @@ const Footer = () => {
             />
           </Link>
           <p>2023 Evently. All Rights reserved.</p>
+          <span>Is Powered by Biruk Dagne</span>
         </div>
     </footer>
   )
