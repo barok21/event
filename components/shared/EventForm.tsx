@@ -21,6 +21,7 @@ import { useUploadThing } from "@/lib/uploadthing"
 import { useRouter } from "next/navigation"
 import { createEvent, updateEvent } from "@/lib/actions/event.actions"
 import { IEvent } from "@/lib/database/models/event.model"
+import { ToastBar, Toaster, toast } from "react-hot-toast";
 
 type EventFormProps = {
     userId: string
@@ -46,20 +47,31 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps ) => {
     resolver: zodResolver(eventFormSchema),
     defaultValues: initialValues
   })
- 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
+    
+    
+    let loadingToast;
+    if(type === "Create"){
+      let loadingToast = toast.loading("Submitting...");
+    }
+    if(type === "Update"){
+      let loadingToast = toast.loading("Updating...");
+    }
     let uploadedImageUrl = values.imageUrl;
-
+    
     if(files.length > 0) {
       const uploadedImages = await startUpload(files)
-
+      
       if(!uploadedImages) {
+        
         return
       }
 
       uploadedImageUrl = uploadedImages[0].url
+      
     }
+      
 
     if(type === 'Create') {
       try {
@@ -68,10 +80,12 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps ) => {
           userId,
           path: '/profile'
         })
-
         if(newEvent) {
           form.reset();
           router.push(`/events/${newEvent._id}`)
+
+          toast.dismiss(loadingToast);
+          toast.success("You have successfuly create an EVENT!");
         }
       } catch (error) {
         console.log(error);
@@ -94,6 +108,9 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps ) => {
         if(updatedEvent) {
           form.reset();
           router.push(`/events/${updatedEvent._id}`)
+
+          toast.dismiss(loadingToast);
+          toast.success("Updated");
         }
       } catch (error) {
         console.log(error);
@@ -103,6 +120,9 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps ) => {
 
   return (
     <Form {...form}>
+      <Toaster
+        position="top-right"
+      />
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
         <div className="flex flex-col gap-5">
           <FormField
@@ -315,18 +335,19 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps ) => {
                 </FormItem>
               )}
             />
+        
         </div>
-
         <Button 
           type="submit"
           size="lg"
           disabled={form.formState.isSubmitting}
           className="button col-span-2 w-full"
         >
+          
           {form.formState.isSubmitting ? (
             'Submitting...'
-          ): `${type} Event `}</Button>
-
+          ): `${type} Event `} </Button>
+      
       </form>
     </Form>
   )

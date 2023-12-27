@@ -1,9 +1,10 @@
 "use client"
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Button } from '../ui/button'
 import { formUrlQuery } from '@/lib/utils'
+import Loading from '@/app/(root)/loading'
 
 type PaginationProps = {
   page: number | string,
@@ -30,6 +31,7 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
   }
 
   return (
+    <Suspense fallback={<Loading/>}>
     <div className="flex gap-2">
       <Button
         size="lg"
@@ -50,6 +52,7 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
         Next
       </Button>
     </div>
+    </Suspense>
   )
 }
 

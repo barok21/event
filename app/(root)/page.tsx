@@ -9,6 +9,7 @@ import { SearchParamProps } from '@/types';
 import Image from 'next/image'
 import Link from 'next/link'
 
+
 export default async function Home({ searchParams }: SearchParamProps) {
   const page = Number(searchParams?.page) || 1;
   const searchText = (searchParams?.query as string) || '';
@@ -52,7 +53,6 @@ export default async function Home({ searchParams }: SearchParamProps) {
           <Search />
           <CategoryFilter />
         </div>
-
         <Collection 
           data={events?.data}
           emptyTitle="No Events Found"
