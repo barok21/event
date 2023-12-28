@@ -50,7 +50,6 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps ) => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof eventFormSchema>) {
     
-    
     let loadingToast;
     if(type === "Create"){
       let loadingToast = toast.loading("Submitting...");
@@ -121,7 +120,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps ) => {
   return (
     <Form {...form}>
       <Toaster
-        position="top-right"
+        position="top-center"
       />
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
         <div className="flex flex-col gap-5">
