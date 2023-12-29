@@ -4,6 +4,8 @@ import Link from "next/link"
 import { Button } from "../ui/button"
 import NavItems from "./NavItems"
 import MobileNav from "./MobileNav"
+import Commands from "./Commands"
+import NavigationMenus from "./NavigationMenu"
 
 
 const Header = () => {
@@ -17,14 +19,18 @@ const Header = () => {
                 />
             </Link>
 
+            
             <SignedIn>
               <nav className="md:flex-between hidden w-full max-w-xs">
                 <NavItems />
               </nav>
             </SignedIn>
             
-            <div className="flex w-32 justify-end gap-3 ">
+            <div className="flex w-32 justify-end gap-5 ">
               <SignedIn>
+                <Button>
+                  <Commands />
+                </Button>
                 <UserButton afterSignOutUrl="/" />
                 <MobileNav />
               </SignedIn>
@@ -34,6 +40,7 @@ const Header = () => {
                     Login
                   </Link>
                 </Button>
+                
               </SignedOut>
             </div>
 

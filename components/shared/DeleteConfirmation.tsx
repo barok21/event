@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/alert-dialog'
 
 import { deleteEvent } from '@/lib/actions/event.actions'
+import { Button } from '../ui/button'
 
 export const DeleteConfirmation = ({ eventId }: { eventId: string }) => {
   const pathname = usePathname()
